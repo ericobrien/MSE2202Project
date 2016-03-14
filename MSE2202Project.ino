@@ -39,8 +39,8 @@ unsigned int ModeIndicator[6] = {
 };
 
 //pins
-const int LftMtrPin = 8;
-const int RgtMtrPin = 0;//*******
+const int LftMtrPin = 4;
+const int RgtMtrPin= 5;//*******
 const int ArmBasePin = 0;//********
 const int ArmBendPin = 0;//********
 const int WristPin = 0;//********
@@ -51,8 +51,8 @@ const int HallGrip = A0;//********
 const int GripLight = A0;//********
 const int UltraLft = 0;//********
 const int UltraRgt = 0;//********
-const int UltrasonicPing = 0;
-const int UltrasonicData = 0;
+const int UltrasonicPing = 7;
+const int UltrasonicData = 6;
 const unsigned HallSensor1 = A0;
 const unsigned HallSensor2 = A1;
 
@@ -125,6 +125,7 @@ void Countermeasures(){
 }
 void PickUp() {
   //robot has deteced tesseract in 'Look' and uses arm to pick it up, after picked up runs 'GoHome'
+  
 }
 void GoHome() {
   //robot calculates and saves position and returns to base after tesseract picked up, runs 'Look'
@@ -135,8 +136,32 @@ void Return() {
 
 
 //Mode 2
+
+long UltrasonicDuration, UtrasonicInches, Ultrasonic_cm;
 void Check(){
   //robot continiously checks wall to see if there is a tesseract available, if found runs 'Move'
+  pinMode(6, OUTPUT);
+  digitalWrite(6, LOW);
+  delayMciroseconds(2);
+  digitalWrite(6, HIGH);
+  delayMicroseconds(5);
+  digitalWrite(6, LOW);
+  
+  pinMode(7, INPUT);
+  UltrasonicDuration = pulseIn(7, HIGH);
+  /*
+  UtrasonicInches = microsecondsToInches(UltrasonicDuration);
+  Ultrasonic_cm = microsecondsToCentimeters(UltrasonicDuration);
+  
+  Serial.print(inches);
+  Serial.print("in, ");
+  Serial.print(cm);
+  Serial("cm");
+  Serial.printIn();
+*/  
+  delay(100);
+  
+  
 }
 void Move(){
 //robot picks up tesseract from wall, drives under beam and hangs tesseract on overhang, returns back under beam, runs 'Check'
